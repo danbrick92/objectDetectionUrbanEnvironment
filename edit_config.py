@@ -23,6 +23,7 @@ def edit(train_dir, eval_dir, batch_size, checkpoint, label_map):
     
     training_files = glob.glob(train_dir + '/*.tfrecord')
     evaluation_files = glob.glob(eval_dir + '/*.tfrecord')
+    print(evaluation_files)
 
     pipeline_config.train_config.batch_size = batch_size
     pipeline_config.train_config.fine_tune_checkpoint = checkpoint
