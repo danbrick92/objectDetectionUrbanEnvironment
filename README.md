@@ -55,8 +55,27 @@ Although another rule of thumb is to split the dataset up 90/10 if you have a lo
 In order to accomplish the above, I implemented a function in create_splits.py that splits up the dataset in this way. 
 
 ## Training
-### Reference experiment
-This section should detail the results of the reference experiment. It should includes training metrics and a detailed explanation of the algorithm's performances.
+### Experiment 1: Reference Model
+The initial reference model did not have great performance.
 
-### Improve on the reference
+For the Mean Average Precision (mAP) @ 50 IOU, it achieved a precision of .08. 
+![mAP Run 0](img/run_0_map.png?raw=true)
+
+For the learning rate, the model started with a low learning rate until it hit about 2000 steps. At this point, the learning rate grew to about .04 and then started to decrease steadily until it hit 0 at 25000 steps.
+
+![Learning Rate Run 0](img/run_0_learningrate.png?raw=true)
+
+In terms of loss, there were three recorded metrics: the classification loss (ability to correctly identify object class), the localization loss (for bounding boxes), and the regularization loss (loss due to the regularizer). I only show the classification and localization loss here.
+
+The classification loss was at about .5 by the end of 24000 steps in the training, but performed worse at .59 on the validation data. This shows that there was some amount of overfitting on the data since we did not generalize well to the test set. This could be due to many things like poor regularization, too high a learning rate, bad architectural decisions, or lack of augmentation. 
+
+![Classification Loss Run 0](img/run_0_loss_classification.png?raw=true)
+
+A very similar story can be told for the localization loss. It was .4 on the training set by 24000 steps, and .52 on the validation set. Again, this could be due to any of the factors I mentioned above.
+
+![Localization Loss Run 0](img/run_0_loss_localization.png?raw=true)
+
+
+### Experiment 2: Model with Augmentations, Tuned Parameters
+#### What Changed?
 This section should highlight the different strategies you adopted to improve your model. It should contain relevant figures and details of your findings.
