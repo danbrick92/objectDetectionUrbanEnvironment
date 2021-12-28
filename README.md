@@ -38,9 +38,14 @@ On average, most images will contain about 22 bounding boxes in total.
 
 This is important to recognize as ensuring that bicycles and pedestrians make it into the training process is important. While we could achieve very good results with this dataset, the network could learn to ignore bicylists totally. It could become biased, and this is extremely dangerous.
 
+#### Image Analysis
+Although there are many pictures taken on bright blue sunny days, there are many images that are not in those conditions. A list of the most common conditions is shown below: 
 
+![Image Distribution](img/image_dist.png?raw=true)
 
-This section should contain a quantitative and qualitative description of the dataset. It should include images, charts and other visualizations.
+Some of the images are taken at night. Some are taken in blinding sunlight. Some images contain cars, bicyclists, and pedestrians that are partially occluded. Some images are blurry due to rain or fog. Almost all of the images contain cars and people seen from different angles. 
+
+These are important attributes to consider in order to augment the dataset for training. This should lead to better results and less bias overall. 
 
 ### Cross validation
 This section should detail the cross validation strategy and justify your approach.
