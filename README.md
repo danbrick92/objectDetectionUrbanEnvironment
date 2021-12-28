@@ -10,13 +10,19 @@ Object Detection is critical to self-driving cars because it is needed for both 
 
 ## Dataset
 ### Dataset analysis
-The data in this set come in the form of 640x640 images. Each image looks like the following image:
+The data in this set come in the form of 640x640 images. Each image looks like the following:
 
 ![Unaltered Image](img/base.png?raw=true)
 
+Notice the pedestrians and other vehicles in the image. Although not shown here, there are images in the dataset that contain bicycles.
 
+The dataset also includes some other key pieces of information such as the ground truth bounding boxes and the ground truth classes (they correspond with each other).
 
+When the ground truth boxes, classes, and images are overlayed, they create an image that looks like this:
 
+![Overlay Image](img/overlay.png?raw=true)
+
+Notice how each vehicle and pedestrian are outlines with the appropriate bounding boxes, which are color coded by type. 
 
 
 
