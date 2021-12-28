@@ -10,19 +10,33 @@ Object Detection is critical to self-driving cars because it is needed for both 
 
 ## Dataset
 ### Dataset analysis
+#### Basics
 The data in this set come in the form of 640x640 images. Each image looks like the following:
 
 ![Unaltered Image](img/base.png?raw=true)
 
 Notice the pedestrians and other vehicles in the image. Although not shown here, there are images in the dataset that contain bicycles.
 
+#### Ground Truth Bounding Boxes
 The dataset also includes some other key pieces of information such as the ground truth bounding boxes and the ground truth classes (they correspond with each other).
 
 When the ground truth boxes, classes, and images are overlayed, they create an image that looks like this:
 
 ![Overlay Image](img/overlay.png?raw=true)
 
-Notice how each vehicle and pedestrian are outlines with the appropriate bounding boxes, which are color coded by type. 
+Notice how each vehicle and pedestrian are outlined with the appropriate bounding boxes, which are color coded by type. 
+
+#### Class Analysis
+Based on a random sampling of 10,000 images across the dataset, the following class distribution has been found:
+
+![Class Distribution](img/class_dist.png?raw=true)
+
+On average, most images will contain about 22 bounding boxes in total. 
+~78.5% of the bounding boxes in images contain cars. 
+~20.9% of the bounding boxes in images contain pedestrians.
+~.6 of the remaining boxes are for bicycles.
+
+This is important to recognize as ensuring that bicycles and pedestrians make it into the training process is important. While we could achieve very good results with this dataset, the network could learn to ignore bicylists totally. It could become biased, and this is extremely dangerous.
 
 
 
