@@ -48,7 +48,11 @@ Some of the images are taken at night. Some are taken in blinding sunlight. Some
 These are important attributes to consider in order to augment the dataset for training. This should lead to better results and less bias overall. 
 
 ### Cross validation
-This section should detail the cross validation strategy and justify your approach.
+For cross validation, I chose to split the dataset up into three different sections: train, validaton, and test. The rule of thumb for many datasets is to use an 80/20 approach. 80% of the data gets used in training, and the other 20% is used for validation and testing. For the remaining 20%, I opted to split that in half, putting 1/2 in test and 1/2 in validation. 
+
+Although another rule of thumb is to split the dataset up 90/10 if you have a lot of data (and this dataset does), I did not opt to do this. The reason is because I wanted to have a larger representation in the test/validation dataset to prove the results. I would rather feel more confident about the model's performance and generalization ability than it's ability to learn on another 10% of the data. 
+
+In order to accomplish the above, I implemented a function in create_splits.py that splits up the dataset in this way. 
 
 ## Training
 ### Reference experiment
