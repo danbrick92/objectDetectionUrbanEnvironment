@@ -6,7 +6,39 @@ The goal of this project is to create a Convolutional Neural Network (ConvNet) t
 Object Detection is critical to self-driving cars because it is needed for both safety and navigational needs. It's important to be able to identify both what and where something is on a particular image. For all objects, it's essential to ensure the car does not run into anything and maintains a safe distance. Without object detection (which uses camera images), the car would essentially be blind to the world.
 
 ## Set up
-[This section should contain a brief description of the steps to follow to run the code for this repository.]
+### Clone this repo
+Ensure git is installed
+Clone this repo locally with "git clone https://github.com/danbrick92/objectDetectionUrbanEnvironment.git"
+
+### Get an environment stood up
+Please follow the instructions in build/README.md to get a Docker container stood up for running the code.
+
+### Download Waymo Open Dataset
+Download the Waymo Open Dataset following these instructions:
+- [OPTIONAL] - The files can be downloaded directly from the website as tar files or from the [Google Cloud Bucket](https://console.cloud.google.com/storage/browser/waymo_open_dataset_v_1_2_0_individual_files/) as individual tf records. We have already provided the data required to finish this project in the workspace, so you don't need to download it separately.
+
+You can then run create_splits.py to organize the data into training, test, and val. 
+
+### Running Training & Validation
+First you need to select the model to train. If you want to select an existing model, use one of the pre-existing runs. (run4 is the latest and most successful)
+
+If you want to modify and create a new model, you need to edit the config file. To do this, create a new run# directory in experiuments, and place a copy of pipeline.config, modifying the config file in experiments/{run#}/pipeline.config
+
+To train a model, run from the project root dir:
+python experiments/model_main_tf2.py --model_dir=experiments/{run#}/ --pipeline_config_path=experiments/{run#}/pipeline.config
+
+To evaluate a model, run from the project root dir:
+python experiments/model_main_tf2.py --model_dir=experiments/{run#}/ --pipeline_config_path=experiments/{run#}/pipeline.config --checkpoint_dir=experiments/{run#}
+
+### Saving a Model
+To save and export a model, run from the project root dir:
+python experiments/exporter_main_v2.py --input_type image_tensor --pipeline_config_path experiments/run4/pipeline.config --trained_checkpoint_dir experiments/run4/ --output_directory experiments/run4/exported/
+
+### Creating an animation
+To create an animation from test data, first select a test data file (ie: data/waymo/test/segment-11718898130355901268_2300_000_2320_000_with_camera_labels.tfrecord)
+
+python inference_video.py --labelmap_path label_map.pbtxt --model_path experiments/{run#}/exported/saved_model --tf_record_path {testdata} --config_path experiments/{run#}/pipeline.config --output_path animation.gif
+
 
 ## Dataset
 ### Dataset analysis
@@ -79,7 +111,7 @@ A very similar story can be told for the localization loss. It was .4 on the tra
 
 ![Localization Loss Run 0](img/run_0_loss_localization.png?raw=true)
 
-
+## Model Improvements
 ### Experiment 2: Model with Augmentations, Tuned Parameters
 #### Overview
 What's changed?
@@ -137,10 +169,9 @@ The localization loss was also very similar, experiencing a near identical decre
 Overall, there is definitely some overfitting going on here for both classification and localization. Both the classification loss and localization loss were about 1.5 times larger on the validation data. 
 ![Loss Run 2](img/run_2_loss.png?raw=true)
 
-### Experiment 4: Longer Training Times, Increased Regularization and Learning Rate, Added More Augmentations
+### Experiment 4: Increased Regularization and Learning Rate, Added More Augmentations
 #### Overview
 What's changed?
-- Set the number of steps from 50000 to 60000
 - Set l2 regularizers from .0002 to .0003
 - Added augmentation random_patch_gaussian
 - Added augmentation random_image_scale
@@ -162,3 +193,31 @@ The learning rate was the same as the last run.
 #### Loss
 While the training loss for both classification and localization loss were lower than last time, it performed worse on the validation data. (Both classification and localization loss for validation data are about twice as bad as the losses for training).
 ![Loss Run 3](img/run_3_loss.png?raw=true)
+
+### Experiment 4: Tuned Augmentations
+#### Overview
+What's changed?
+- Removed augmentation random_patch_gaussian
+- Adjusted augmentation random_image_scale
+- Doubled number of anchor boxes
+- Downscaled x and y axis of anchor boxes
+
+In the last network, I saw a lot of overfitting. I also noticed poor performance on distant objects and blurry scenarios. My goal with this training was to really focus on the smaller image portion of the problem. I tuned parameters for random_image_scale to allow the image to lose quality (giving it a blur factor). I also doubled the number of anchor boxes and cut the size of them down to allow for smaller detections. 
+
+Overall, the new network had improved performance.
+
+#### mAP
+The mAP score with the large box and an IOU threshold of .6 was just about .5, which is better than the last few runs.
+![mAP Run 3](img/run_4_map.png?raw=true)
+
+
+#### Learning Rate
+The learning rate was the same as the last run. 
+![Learning Rate Run 4](img/run_4_learningrate.png?raw=true)
+
+#### Loss
+While the loss was even lower for both classification and localization during training, it still suffered from some fairly significant overfitting.
+![Loss Run 4](img/run_4_loss.png?raw=true)
+
+## Animation Example
+![Animation](animation.gif?raw=true)
