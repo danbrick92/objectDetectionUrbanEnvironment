@@ -208,16 +208,16 @@ Overall, the new network had improved performance.
 
 #### mAP
 The mAP score with the large box and an IOU threshold of .6 was just about .5, which is better than the last few runs.
-![mAP Run 3](img/run_4_map.png?raw=true)
+![mAP Run 3](img/run_4_map.png)
 
 
 #### Learning Rate
 The learning rate was the same as the last run. 
-![Learning Rate Run 4](img/run_4_learningrate.png?raw=true)
+![Learning Rate Run 4](img/run_4_learningrate.png)
 
 #### Loss
 While the loss was even lower for both classification and localization during training, it still suffered from some fairly significant overfitting.
-![Loss Run 4](img/run_4_loss.png?raw=true)
+![Loss Run 4](img/run_4_loss.png)
 
 ## Animation Example
 ![Animation](animation.gif?raw=true)
