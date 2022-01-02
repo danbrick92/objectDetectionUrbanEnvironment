@@ -143,7 +143,7 @@ Interestingly enough, the overloss for the validation data and training data wer
 ### Experiment 3: Changing to EfficientNet D1 Network, Longer Training Time
 #### Overview
 What's changed?
-- Changed to a new network "ssd_efficientnet-b1_bifpn_keras"
+- Changed to a new network "ssd_efficientnet-b1_bifpn_keras" (downloaded and placed into pretrained_models)
 - Set l2 regularizers from .0004 to .0002
 - Changed from ReLU activation to SWISH
 - Changed from 25000 steps to 50000 steps
